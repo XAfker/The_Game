@@ -1,7 +1,5 @@
 package Gra.Characters;
 
-import java.util.Random;
-
 public class Stuff {
     private String name;
     private double weight;
@@ -10,7 +8,7 @@ public class Stuff {
     }
 
     public String toString(){
-        return "name: " +this.name +" weight: " +this.weight;
+        return this.name;
     }
 
     public void setWeight(double weight) {

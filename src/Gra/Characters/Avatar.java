@@ -66,7 +66,7 @@ public class Avatar {
     }
 
     public String toString(){
-        return "Character name: " +this.characterName;
+        return this.characterName;
     }
 
     public void hurt(double attackPower){
