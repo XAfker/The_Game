@@ -11,19 +11,19 @@ public class Menu {
 
     JFrame window = new JFrame();
     JPanel titlebcg = new JPanel();
-    JLabel titletxt = new JLabel("The Game");
-    Font fnt = new Font("Italic", Font.ITALIC, 150);
     JPanel startbtn = new JPanel();
-    Font deflt = new Font("Classic", Font.BOLD, 25);
-    JButton startbtnclck = new JButton("Start your adventure");
-    Container cont = window.getContentPane();
     JPanel mainTxt = new JPanel();
-    JTextArea mainArea = new JTextArea("Main text");
     JPanel choiceBtnPan, p1Pan;
+    JLabel titletxt = new JLabel("The Game");
+    JLabel hpFld, hpAmount, handFld, handItem, pnamefld, pnameStr, enemyFld, enemyHPam;
+    JButton startbtnclck = new JButton("Start your adventure");
     JButton choice1, choice2, choice3, choice4;
+    Container cont = window.getContentPane();
+    JTextArea mainArea = new JTextArea("Main text");
     ScreenGet getscreen = new ScreenGet();
     ChoiceGet getchoice = new ChoiceGet();
-    JLabel hpFld, hpAmount, handFld, handItem, pnamefld, pnameStr;
+    Font fnt = new Font("Italic", Font.ITALIC, 150);
+    Font deflt = new Font("Classic", Font.BOLD, 25);
     String position;
     Avatar P1;
     Monster enemy;
@@ -32,11 +32,11 @@ public class Menu {
 
     public Menu(){
         window.setLayout(null);
-        window.setSize(1500, 1000);
+        window.setSize(1700, 1000);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.getContentPane().setBackground(Color.black);
 
-        titlebcg.setBounds(150, 50, 720, 220);
+        titlebcg.setBounds(450, 50, 720, 220);
         titlebcg.setBackground(Color.cyan);
 
         cont.add(titlebcg);
@@ -47,7 +47,7 @@ public class Menu {
 
         titlebcg.add(titletxt);
 
-        startbtn.setBounds(360, 500, 300, 100);
+        startbtn.setBounds(650, 560, 300, 100);
         startbtn.setBackground(Color.black);
         cont.add(startbtn);
 
@@ -79,7 +79,7 @@ public class Menu {
         mainTxt.add(mainArea);
 
         choiceBtnPan = new JPanel();
-        choiceBtnPan.setBounds(25, 500, 1450, 200);
+        choiceBtnPan.setBounds(25, 600, 1650, 200);
         choiceBtnPan.setBackground(Color.black);
         choiceBtnPan.setLayout(new GridLayout(4,1));
         cont.add(choiceBtnPan);
@@ -121,9 +121,9 @@ public class Menu {
         choiceBtnPan.add(choice4);
 
         p1Pan = new JPanel();
-        p1Pan.setBounds(40, 370, 1400, 75);
+        p1Pan.setBounds(40, 370, 1400, 100);
         p1Pan.setBackground(Color.black);
-        p1Pan.setLayout(new GridLayout(3,1));
+        p1Pan.setLayout(new GridLayout(4,1));
         cont.add(p1Pan);
 
         pnamefld = new JLabel("Name: ");
@@ -155,6 +155,16 @@ public class Menu {
         handItem.setFont(deflt);
         handItem.setForeground(Color.white);
         p1Pan.add(handItem);
+
+        enemyFld = new JLabel("Enemy HP: ");
+        enemyFld.setFont(deflt);
+        enemyFld.setForeground(Color.white);
+        p1Pan.add(enemyFld);
+
+        enemyHPam = new JLabel();
+        enemyHPam.setFont(deflt);
+        enemyHPam.setForeground(Color.white);
+        p1Pan.add(enemyHPam);
 
         gameStartInfo();
 
@@ -239,6 +249,8 @@ public class Menu {
 
         enemy = new Monster();
 
+        enemyHPam.setText("" +enemy.getHealth());
+
         mainArea.setText("You have encountered a Monster, what do you do?");
 
         choice1.setText("Use item in your hand");
@@ -260,7 +272,38 @@ public class Menu {
         handItem.setText(a.getHand().toString());
         hpAmount.setText("" +a.getHealth());
         pnameStr.setText(a.toString());
+
     }
+
+    public void zeroMenu(){
+        handItem.setText("");
+        hpAmount.setText("");
+        pnameStr.setText("");
+        enemyHPam.setText("");
+    }
+
+    public void playerDead(){
+        position = "Dead";
+
+        mainArea.setText("You are dead");
+
+        choice1.setText("Play again!");
+        choice2.setText("End your journey");
+        choice3.setText("");
+        choice4.setText("");
+    }
+
+    public void enemyDead(){
+        position = "Win";
+
+        mainArea.setText("You killed the monster");
+
+        choice1.setText("Give me another one");
+        choice2.setText("I want to end my journey");
+        choice3.setText("");
+        choice4.setText("");
+    }
+
 
 
     public class ScreenGet implements ActionListener {
@@ -294,6 +337,7 @@ public class Menu {
                         break;
                         case "ch3": selectMage();
                         break;
+                        case "ch4": break;
                     }
                     break;
                     case "Warrior", "Assassin", "Mage":
@@ -308,10 +352,24 @@ public class Menu {
                 case "action":
                     switch (choice) {
                         case "ch1":
-                            enemy.hurt(P1.attack());
-                            P1.setHealth(P1.getHealth() - enemy.attack());
-                            break;
+                            if(P1.isAlive() && enemy.isAlive()) {
+                                enemy.hurt(P1.attack());
+                                P1.setHealth(P1.getHealth() - enemy.attack());
+                                hpAmount.setText("" + P1.getHealth());
+                                enemyHPam.setText("" + enemy.getHealth());
+                                break;
+                            }
+                            else if(!P1.isAlive()){
+                                playerDead();
+                                break;
+                            }
+                            else {
+                                enemyDead();
+                                break;
+                            }
                         case "ch2": backpack();
+                        case "ch3": break;
+                        case "ch4": break;
                     }
                     break;
                 case "backpack":
@@ -325,6 +383,32 @@ public class Menu {
                         case "ch3":
                             P1.setHand(P1.getBackpack()[2]);
                             break;
+                        case "ch4": break;
+                    }
+                    break;
+                case "Dead":
+                    switch (choice) {
+                        case "ch1":
+                            zeroMenu();
+                            gameStartInfo();
+                            break;
+                        case "ch2":
+                            System.exit(0);
+                            break;
+                        case "ch3": break;
+                        case "ch4": break;
+                    }
+                    break;
+                case "Win":
+                    switch (choice) {
+                        case "ch1":
+                            action();
+                            break;
+                        case "ch2":
+                            System.exit(0);
+                            break;
+                        case "ch3": break;
+                        case "ch4": break;
                     }
                     break;
             }
