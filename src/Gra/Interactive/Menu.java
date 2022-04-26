@@ -20,6 +20,7 @@ public class Menu {
     JButton choice1, choice2, choice3, choice4;
     Container cont = window.getContentPane();
     JTextArea mainArea = new JTextArea("Main text");
+    JTextField nameField;
     ScreenGet getscreen = new ScreenGet();
     ChoiceGet getchoice = new ChoiceGet();
     Font fnt = new Font("Italic", Font.ITALIC, 150);
@@ -121,7 +122,7 @@ public class Menu {
         choiceBtnPan.add(choice4);
 
         p1Pan = new JPanel();
-        p1Pan.setBounds(40, 370, 1400, 100);
+        p1Pan.setBounds(40, 370, 1400, 150);
         p1Pan.setBackground(Color.black);
         p1Pan.setLayout(new GridLayout(4,1));
         cont.add(p1Pan);
@@ -131,10 +132,11 @@ public class Menu {
         pnamefld.setForeground(Color.white);
         p1Pan.add(pnamefld);
 
-        pnameStr = new JLabel();
-        pnameStr.setFont(deflt);
-        pnameStr.setForeground(Color.white);
-        p1Pan.add(pnameStr);
+        nameField = new JTextField("Enter your name");
+        nameField.setBackground(Color.black);
+        nameField.setForeground(Color.white);
+        nameField.setFont(deflt);
+        p1Pan.add(nameField);
 
         hpFld = new JLabel("Hp: ");
         hpFld.setFont(deflt);
@@ -203,7 +205,7 @@ public class Menu {
     public void selectWarrior(){
         position = "Warrior";
 
-        P1 = new Warrior("Warrior");
+        P1 = new Warrior(nameField.getText());
         setPlayerMenu(P1);
 
         mainArea.setText("Ah, I see, so you are a Warrior, grab your axe and come");
@@ -217,7 +219,7 @@ public class Menu {
     public void selectAssassin(){
         position = "Assassin";
 
-        P1 = new Assassin("Assassin");
+        P1 = new Assassin(nameField.getText());
         setPlayerMenu(P1);
 
         mainArea.setText("Ah, I see, so you are a Assassin, grab your daggers and come");
@@ -232,7 +234,7 @@ public class Menu {
     public void selectMage(){
         position = "Mage";
 
-        P1 = new Mage("Mage");
+        P1 = new Mage(nameField.getText());
         setPlayerMenu(P1);
 
         mainArea.setText("Ah, I see, so you are a Mage, grab your stuff and come");
@@ -271,7 +273,6 @@ public class Menu {
     public void setPlayerMenu(Avatar a){
         handItem.setText(a.getHand().toString());
         hpAmount.setText("" +a.getHealth());
-        pnameStr.setText(a.toString());
 
     }
 
@@ -313,6 +314,7 @@ public class Menu {
             showGameScreen();
         }
     }
+
     public class ChoiceGet implements ActionListener{
 
         @Override
@@ -323,12 +325,15 @@ public class Menu {
                 case "Start":
                     switch (choice){
                         case "ch1": classSelect();
+                        nameField.setEditable(false);
+                        nameField.setBorder(null);
                         break;
                         case "ch2": break;
                         case "ch3": break;
                         case "ch4": break;
                     }
                     break;
+
                 case "Select":
                     switch (choice){
                         case "ch1": selectWarrior();
@@ -340,6 +345,7 @@ public class Menu {
                         case "ch4": break;
                     }
                     break;
+
                     case "Warrior", "Assassin", "Mage":
                     switch (choice) {
                         case "ch1": action();
@@ -349,6 +355,7 @@ public class Menu {
                         case "ch4": break;
                     }
                     break;
+
                 case "action":
                     switch (choice) {
                         case "ch1":
@@ -372,6 +379,7 @@ public class Menu {
                         case "ch4": break;
                     }
                     break;
+
                 case "backpack":
                     switch (choice){
                         case "ch1":
@@ -386,6 +394,7 @@ public class Menu {
                         case "ch4": break;
                     }
                     break;
+
                 case "Dead":
                     switch (choice) {
                         case "ch1":
@@ -399,6 +408,7 @@ public class Menu {
                         case "ch4": break;
                     }
                     break;
+
                 case "Win":
                     switch (choice) {
                         case "ch1":
