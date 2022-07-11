@@ -18,4 +18,5 @@ public class Assassin extends Avatar {
     }
 
 
+
 }

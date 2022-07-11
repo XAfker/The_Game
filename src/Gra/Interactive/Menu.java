@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class Menu {
 
@@ -28,6 +29,7 @@ public class Menu {
     String position;
     Avatar P1;
     Monster enemy;
+    private static int countKill = 0, addHealth = 100, addAttack = 10;
 
 
 
@@ -251,6 +253,12 @@ public class Menu {
 
         enemy = new Monster();
 
+        if(countKill==10)
+            strongerMonster();
+
+        if(countKill>10)
+            countKill = 0;
+
         enemyHPam.setText("" +enemy.getHealth());
 
         mainArea.setText("You have encountered a Monster, what do you do?");
@@ -297,6 +305,17 @@ public class Menu {
     public void enemyDead(){
         position = "Win";
 
+        int rand = new Random().nextInt(1, 100);
+        countKill++;
+
+        if(rand > 65){
+            dropPotion();
+        }
+
+        if(rand > 85){
+            upgradeWepon();
+        }
+
         mainArea.setText("You killed the monster");
 
         choice1.setText("Give me another one");
@@ -305,7 +324,47 @@ public class Menu {
         choice4.setText("");
     }
 
+    public void dropPotion(){
+        position = "Dropped potion";
+        for (int i = 0; i < P1.getBackpack().length; i++) {
+            if(P1.getBackpack()[i] != null){
+                P1.getBackpack()[i] = new Potion();
+            }
+        }
+        mainArea.setText("Monster dropped a health potion");
 
+        choice1.setText("Let's continue");
+        choice2.setText("");
+        choice3.setText("");
+        choice4.setText("");
+    }
+
+    public void upgradeWepon(){
+        position = "Upgraded weapon";
+        P1.addWeaponPoint(addAttack);
+
+        mainArea.setText("It seems that your weapon got sharper");
+
+        choice1.setText("I'll put it to good use");
+        choice2.setText("");
+        choice3.setText("");
+        choice4.setText("");
+    }
+
+    public void strongerMonster(){
+        position = "Stronger monster";
+        this.enemy.setHealth(addHealth);
+        this.enemy.setAttackBonus(addAttack);
+        addHealth+=100;
+        addAttack+=10;
+
+        mainArea.setText("You got deep into monsters lair, the monster are getting stronger");
+
+        choice1.setText("I can handle it");
+        choice2.setText("");
+        choice3.setText("");
+        choice4.setText("");
+    }
 
     public class ScreenGet implements ActionListener {
 
@@ -346,7 +405,7 @@ public class Menu {
                     }
                     break;
 
-                    case "Warrior", "Assassin", "Mage":
+                    case "Warrior", "Assassin", "Mage", "Dropped potion", "Upgraded weapon", "Stronger monster":
                     switch (choice) {
                         case "ch1": action();
                         break;
@@ -366,11 +425,11 @@ public class Menu {
                                 enemyHPam.setText("" + enemy.getHealth());
                                 break;
                             }
-                            else if(!P1.isAlive()){
+                            if(!P1.isAlive()){
                                 playerDead();
                                 break;
                             }
-                            else {
+                            if(!enemy.isAlive()) {
                                 enemyDead();
                                 break;
                             }

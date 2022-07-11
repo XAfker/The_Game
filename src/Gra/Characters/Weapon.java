@@ -1,7 +1,5 @@
 package Gra.Characters;
 
-import Gra.Characters.Stuff;
-
 import java.util.Random;
 
 public class Weapon extends Stuff {

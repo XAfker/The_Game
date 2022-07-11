@@ -26,6 +26,14 @@ public class Monster {
         return this.health;
     }
 
+    public void setHealth(int add){
+        this.health += add;
+    }
+
+    public void setAttackBonus(int bonus){
+        this.attackChance += bonus;
+    }
+
     public boolean isAlive(){
         if(this.health>0)
             return true;

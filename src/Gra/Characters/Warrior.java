@@ -32,5 +32,4 @@ public class Warrior extends Avatar {
         return 0;
     }
 
-
 }

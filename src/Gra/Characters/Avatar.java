@@ -11,6 +11,7 @@ public class Avatar {
     private int backpackitemplace = 0;
     private int potionCount = 0;
     private double level = 1;
+    private Weapon weapon;
 
 
     public Avatar(String characterName){
@@ -50,6 +51,12 @@ public class Avatar {
 
     public void setCapacity(double capacity) {
         this.capacity = capacity;
+    }
+
+
+
+    public void addWeaponPoint(int num){
+        this.weapon.setBaseAttack(this.weapon.getBaseAttack() + num);
     }
 
     public double attack(){
