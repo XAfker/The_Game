@@ -14,7 +14,7 @@ public class Weapon extends Stuff {
 
     @Override
     public String toString(){
-        return "name: " +getName() +" attack: " +getBaseAttack() +" weight: " +getWeight() ;
+        return getName() +" | attack: " +getBaseAttack();
     }
 
 

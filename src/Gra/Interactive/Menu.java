@@ -175,6 +175,14 @@ public class Menu {
     }
 
         public void gameStartInfo(){
+
+            handItem.setText("");
+            hpAmount.setText("");
+            enemyHPam.setText("");
+            nameField.setText("Enter your name");
+            nameField.setBorder(BorderFactory.createLineBorder(Color.white));
+            nameField.setEditable(true);
+
             position = "Start";
 
             mainArea.setText("What will be the name of your avatar?");
@@ -183,11 +191,6 @@ public class Menu {
             choice2.setText("");
             choice3.setText("");
             choice4.setText("");
-
-//        java.util.Scanner avatarChoice = new java.util.Scanner(System.in);
-//        String avatarChosenName = avatarChoice.nextLine();
-//
-//        choice1.setText("Ok " +avatarChosenName +", let's continue");
 
     }
 
@@ -443,12 +446,30 @@ public class Menu {
                     switch (choice){
                         case "ch1":
                             P1.setHand(P1.getBackpack()[0]);
+                            handItem.setText(P1.getHand().toString());
+                            choice1.setText("Use item in your hand");
+                            choice2.setText("Switch item in your hand");
+                            choice3.setText("");
+                            choice4.setText("");
+                            position = "action";
                             break;
                         case "ch2":
                             P1.setHand(P1.getBackpack()[1]);
+                            handItem.setText(P1.getHand().toString());
+                            choice1.setText("Use item in your hand");
+                            choice2.setText("Switch item in your hand");
+                            choice3.setText("");
+                            choice4.setText("");
+                            position = "action";
                             break;
                         case "ch3":
                             P1.setHand(P1.getBackpack()[2]);
+                            handItem.setText(P1.getHand().toString());
+                            choice1.setText("Use item in your hand");
+                            choice2.setText("Switch item in your hand");
+                            choice3.setText("");
+                            choice4.setText("");
+                            position = "action";
                             break;
                         case "ch4": break;
                     }
@@ -457,7 +478,6 @@ public class Menu {
                 case "Dead":
                     switch (choice) {
                         case "ch1":
-                            zeroMenu();
                             gameStartInfo();
                             break;
                         case "ch2":
