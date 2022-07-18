@@ -311,7 +311,7 @@ public class Menu {
         int rand = new Random().nextInt(1, 100);
         countKill++;
 
-        if(rand > 65){
+        if(rand > 1){
             dropPotion();
         }
 
@@ -330,8 +330,9 @@ public class Menu {
     public void dropPotion(){
         position = "Dropped potion";
         for (int i = 0; i < P1.getBackpack().length; i++) {
-            if(P1.getBackpack()[i] != null){
+            if(P1.getBackpack()[i] == null){
                 P1.getBackpack()[i] = new Potion();
+                break;
             }
         }
         mainArea.setText("Monster dropped a health potion");
@@ -422,10 +423,17 @@ public class Menu {
                     switch (choice) {
                         case "ch1":
                             if(P1.isAlive() && enemy.isAlive()) {
-                                enemy.hurt(P1.attack());
-                                P1.setHealth(P1.getHealth() - enemy.attack());
-                                hpAmount.setText("" + P1.getHealth());
-                                enemyHPam.setText("" + enemy.getHealth());
+                                if(P1.getHand().getClass().equals(Potion.class)){
+                                    P1.setHealth(P1.getHealth() + new Potion().getHealAmount());
+                                    position = "backpack";
+                                    break;
+                                }
+                                else {
+                                    enemy.hurt(P1.attack());
+                                    P1.setHealth(P1.getHealth() - enemy.attack());
+                                    hpAmount.setText("" + P1.getHealth());
+                                    enemyHPam.setText("" + enemy.getHealth());
+                                }
                                 break;
                             }
                             if(!P1.isAlive()){
@@ -443,10 +451,12 @@ public class Menu {
                     break;
 
                 case "backpack":
-                    switch (choice){
+                    switch (choice) {
                         case "ch1":
-                            P1.setHand(P1.getBackpack()[0]);
-                            handItem.setText(P1.getHand().toString());
+                            if (P1.getBackpack()[0] != null) {
+                                P1.setHand(P1.getBackpack()[0]);
+                                handItem.setText(P1.getHand().toString());
+                            }
                             choice1.setText("Use item in your hand");
                             choice2.setText("Switch item in your hand");
                             choice3.setText("");
@@ -454,8 +464,10 @@ public class Menu {
                             position = "action";
                             break;
                         case "ch2":
-                            P1.setHand(P1.getBackpack()[1]);
-                            handItem.setText(P1.getHand().toString());
+                            if (P1.getBackpack()[1] != null) {
+                                P1.setHand(P1.getBackpack()[1]);
+                                handItem.setText(P1.getHand().toString());
+                            }
                             choice1.setText("Use item in your hand");
                             choice2.setText("Switch item in your hand");
                             choice3.setText("");
@@ -463,8 +475,10 @@ public class Menu {
                             position = "action";
                             break;
                         case "ch3":
-                            P1.setHand(P1.getBackpack()[2]);
-                            handItem.setText(P1.getHand().toString());
+                            if (P1.getBackpack()[2] != null){
+                                P1.setHand(P1.getBackpack()[2]);
+                                handItem.setText(P1.getHand().toString());
+                             }
                             choice1.setText("Use item in your hand");
                             choice2.setText("Switch item in your hand");
                             choice3.setText("");
